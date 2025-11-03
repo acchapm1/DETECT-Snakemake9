@@ -1,4 +1,6 @@
 work/*
+success/*
+unused/*
 .snakemake/*
 .snakemake_backup/*
 demo/demo_workdir/*.
@@ -10,4 +12,4 @@ logs/*
 *.idx
 *.bam
 *.ped
-
+AGENTS.md
