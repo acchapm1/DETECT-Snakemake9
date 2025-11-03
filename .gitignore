@@ -1,0 +1,13 @@
+work/*
+.snakemake/*
+.snakemake_backup/*
+demo/demo_workdir/*.
+logs/*
+*.swp
+*.err
+*.out
+*.vcf
+*.idx
+*.bam
+*.ped
+

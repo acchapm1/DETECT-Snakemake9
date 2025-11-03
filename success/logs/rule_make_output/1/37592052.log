@@ -1,0 +1,84 @@
+host: sc029
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided remote nodes: 1
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Nov  3 14:19:08 2025]
+rule make_output:
+    input: pipeline/MV/trio.all_chr.MV.1.vcf, pipeline/mutations/input_mutations.1.phased.reformatted.vcf, pipeline/MV/trio.all_chr.MV.mutations.1.table, pipeline/MV/trio.all_chr.MV.polymorphisms.1.table, pipeline/MV/trio.all_chr.MV.errors.1.table, pipeline/MV/trio.all_chr.MV.assembly_depths.mutations.1.table, pipeline/MV/trio.all_chr.MV.assembly_depths.polymorphisms.1.table, pipeline/MV/trio.all_chr.MV.assembly_depths.errors.1.table
+    output: /scratch/acchapm1/sn9-detect/output/DETECT_output.1.txt
+    jobid: 0
+    reason: Forced execution
+    wildcards: iter=1
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=<TBD>, cpus=1, runtime=15, slurm_partition=htc
+Shell command: python /scratch/acchapm1/sn9-detect/DETECT/scripts/make_output_file.py -mv pipeline/MV/trio.all_chr.MV.1.vcf -v pipeline/mutations/input_mutations.1.phased.reformatted.vcf -m pipeline/MV/trio.all_chr.MV.mutations.1.table -p pipeline/MV/trio.all_chr.MV.polymorphisms.1.table -e pipeline/MV/trio.all_chr.MV.errors.1.table -rm pipeline/MV/trio.all_chr.MV.assembly_depths.mutations.1.table -rp pipeline/MV/trio.all_chr.MV.assembly_depths.polymorphisms.1.table -re pipeline/MV/trio.all_chr.MV.assembly_depths.errors.1.table -o /scratch/acchapm1/sn9-detect/output/DETECT_output.1.txt
+host: sc029
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Nov  3 14:19:13 2025]
+localrule make_output:
+    input: pipeline/MV/trio.all_chr.MV.1.vcf, pipeline/mutations/input_mutations.1.phased.reformatted.vcf, pipeline/MV/trio.all_chr.MV.mutations.1.table, pipeline/MV/trio.all_chr.MV.polymorphisms.1.table, pipeline/MV/trio.all_chr.MV.errors.1.table, pipeline/MV/trio.all_chr.MV.assembly_depths.mutations.1.table, pipeline/MV/trio.all_chr.MV.assembly_depths.polymorphisms.1.table, pipeline/MV/trio.all_chr.MV.assembly_depths.errors.1.table
+    output: /scratch/acchapm1/sn9-detect/output/DETECT_output.1.txt
+    jobid: 0
+    reason: Forced execution
+    wildcards: iter=1
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, cpus=1, runtime=15, slurm_partition=htc
+Shell command: python /scratch/acchapm1/sn9-detect/DETECT/scripts/make_output_file.py -mv pipeline/MV/trio.all_chr.MV.1.vcf -v pipeline/mutations/input_mutations.1.phased.reformatted.vcf -m pipeline/MV/trio.all_chr.MV.mutations.1.table -p pipeline/MV/trio.all_chr.MV.polymorphisms.1.table -e pipeline/MV/trio.all_chr.MV.errors.1.table -rm pipeline/MV/trio.all_chr.MV.assembly_depths.mutations.1.table -rp pipeline/MV/trio.all_chr.MV.assembly_depths.polymorphisms.1.table -re pipeline/MV/trio.all_chr.MV.assembly_depths.errors.1.table -o /scratch/acchapm1/sn9-detect/output/DETECT_output.1.txt
+QUAL
+child.GQ
+parent_1.GQ
+parent_2.GQ
+child.DP
+parent_1.DP
+parent_2.DP
+child.DP
+parent_1.DP
+parent_2.DP
+parent_2.AD
+Empty DataFrame
+Columns: [CHROM, POS, QUAL, BaseQRankSum, MQRankSum, ReadPosRankSum, SOR, FS, QD, child.AD, child.DP, child.GQ, parent_1.AD, parent_1.DP, parent_1.GQ, parent_2.AD, parent_2.DP, parent_2.GQ]
+Index: []
+child.AD
+0     0.538462
+1     0.625000
+2     0.416667
+3     0.444444
+4     0.432432
+5     0.500000
+6     0.375000
+7     0.428571
+8     0.515152
+9     0.440000
+10    0.472222
+11    0.600000
+12    0.531250
+13    0.458333
+14    0.600000
+15    0.250000
+dtype: float64
+child.AD
+QD
+MQRankSum
+MQRankSum
+ReadPosRankSum
+ReadPosRankSum
+FS
+SOR
+p1_reassembled
+p2_reassembled
+child_reassembled
+[Mon Nov  3 14:19:14 2025]
+Finished jobid: 0 (Rule: make_output)
+1 of 1 steps (100%) done
+Storing output in storage.
+[Mon Nov  3 14:19:15 2025]
+Finished jobid: 0 (Rule: make_output)
+1 of 1 steps (100%) done
+Storing output in storage.

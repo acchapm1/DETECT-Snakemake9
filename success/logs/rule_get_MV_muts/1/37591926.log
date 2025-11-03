@@ -1,0 +1,76 @@
+host: sc052
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided remote nodes: 1
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Nov  3 14:17:47 2025]
+rule get_MV_muts:
+    input: pipeline/MV/trio.all_chr.MV.1.vcf, pipeline/mutations/input_mutations.1.phased.reformatted.vcf
+    output: pipeline/MV/trio.all_chr.MV.mutations.1.vcf
+    jobid: 0
+    reason: Forced execution
+    wildcards: iter=1
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=<TBD>, cpus=1, runtime=15, slurm_partition=htc
+Shell command: gatk SelectVariants 		-V pipeline/MV/trio.all_chr.MV.1.vcf 		--concordance pipeline/mutations/input_mutations.1.phased.reformatted.vcf 		-O pipeline/MV/trio.all_chr.MV.mutations.1.vcf
+host: sc052
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Nov  3 14:17:52 2025]
+localrule get_MV_muts:
+    input: pipeline/MV/trio.all_chr.MV.1.vcf, pipeline/mutations/input_mutations.1.phased.reformatted.vcf
+    output: pipeline/MV/trio.all_chr.MV.mutations.1.vcf
+    jobid: 0
+    reason: Forced execution
+    wildcards: iter=1
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, cpus=1, runtime=15, slurm_partition=htc
+Shell command: gatk SelectVariants 		-V pipeline/MV/trio.all_chr.MV.1.vcf 		--concordance pipeline/mutations/input_mutations.1.phased.reformatted.vcf 		-O pipeline/MV/trio.all_chr.MV.mutations.1.vcf
+Using GATK jar /home/acchapm1/.conda/envs/sn9detect/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar
+Running:
+    java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -jar /home/acchapm1/.conda/envs/sn9detect/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar SelectVariants -V pipeline/MV/trio.all_chr.MV.1.vcf --concordance pipeline/mutations/input_mutations.1.phased.reformatted.vcf -O pipeline/MV/trio.all_chr.MV.mutations.1.vcf
+14:17:55.783 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/home/acchapm1/.conda/envs/sn9detect/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
+14:17:56.118 INFO  SelectVariants - ------------------------------------------------------------
+14:17:56.121 INFO  SelectVariants - The Genome Analysis Toolkit (GATK) v4.6.2.0
+14:17:56.121 INFO  SelectVariants - For support and documentation go to https://software.broadinstitute.org/gatk/
+14:17:56.121 INFO  SelectVariants - Executing as acchapm1@sc052 on Linux v4.18.0-553.77.1.el8_10.x86_64 amd64
+14:17:56.121 INFO  SelectVariants - Java runtime: OpenJDK 64-Bit Server VM v17.0.15-internal+0-adhoc..src
+14:17:56.121 INFO  SelectVariants - Start Date/Time: November 3, 2025 at 2:17:55 PM MST
+14:17:56.121 INFO  SelectVariants - ------------------------------------------------------------
+14:17:56.121 INFO  SelectVariants - ------------------------------------------------------------
+14:17:56.122 INFO  SelectVariants - HTSJDK Version: 4.2.0
+14:17:56.122 INFO  SelectVariants - Picard Version: 3.4.0
+14:17:56.122 INFO  SelectVariants - Built for Spark Version: 3.5.0
+14:17:56.124 INFO  SelectVariants - HTSJDK Defaults.COMPRESSION_LEVEL : 2
+14:17:56.132 INFO  SelectVariants - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
+14:17:56.132 INFO  SelectVariants - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
+14:17:56.133 INFO  SelectVariants - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
+14:17:56.133 INFO  SelectVariants - Deflater: IntelDeflater
+14:17:56.133 INFO  SelectVariants - Inflater: IntelInflater
+14:17:56.133 INFO  SelectVariants - GCS max retries/reopens: 20
+14:17:56.133 INFO  SelectVariants - Requester pays: disabled
+14:17:56.134 INFO  SelectVariants - Initializing engine
+14:17:56.467 INFO  FeatureManager - Using codec VCFCodec to read file file:///scratch/acchapm1/sn9-detect/work/pipeline/mutations/input_mutations.1.phased.reformatted.vcf
+14:17:56.554 INFO  FeatureManager - Using codec VCFCodec to read file file:///scratch/acchapm1/sn9-detect/work/pipeline/MV/trio.all_chr.MV.1.vcf
+14:17:56.606 INFO  SelectVariants - Done initializing engine
+14:17:56.662 INFO  SelectVariants - Selecting only variants concordant with the track: /scratch/acchapm1/sn9-detect/work/pipeline/mutations/input_mutations.1.phased.reformatted.vcf
+14:17:56.710 INFO  ProgressMeter - Starting traversal
+14:17:56.722 INFO  ProgressMeter -        Current Locus  Elapsed Minutes    Variants Processed  Variants/Minute
+14:17:56.790 INFO  ProgressMeter -             unmapped              0.0                    54          47647.1
+14:17:56.790 INFO  ProgressMeter - Traversal complete. Processed 54 total variants in 0.0 minutes.
+14:17:56.936 INFO  SelectVariants - Shutting down engine
+[November 3, 2025 at 2:17:56 PM MST] org.broadinstitute.hellbender.tools.walkers.variantutils.SelectVariants done. Elapsed time: 0.02 minutes.
+Runtime.totalMemory()=127795200
+[Mon Nov  3 14:17:56 2025]
+Finished jobid: 0 (Rule: get_MV_muts)
+1 of 1 steps (100%) done
+Storing output in storage.
+[Mon Nov  3 14:17:57 2025]
+Finished jobid: 0 (Rule: get_MV_muts)
+1 of 1 steps (100%) done
+Storing output in storage.

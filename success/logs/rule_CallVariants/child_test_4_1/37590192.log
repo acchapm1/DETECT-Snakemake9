@@ -1,0 +1,106 @@
+host: sc064
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided remote nodes: 1
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Nov  3 14:03:17 2025]
+rule CallVariants:
+    input: /scratch/acchapm1/sn9-detect/demo/references/reference.fa, pipeline/mark_dups/child.sorted.mark_dups.1.bam, pipeline/mark_dups/child.sorted.mark_dups.1.bai
+    output: pipeline/call_variants/child.test_4.1.g.vcf, pipeline/call_variants/child.test_4.1.reassembled.bam, pipeline/call_variants/child.test_4.1.reassembled.bai
+    jobid: 0
+    reason: Forced execution
+    wildcards: indiv=child, chromosome=test_4, iter=1
+    resources: mem_mb=40960, mem_mib=39063, disk_mb=1000, disk_mib=954, tmpdir=<TBD>, cpus=1, runtime=480, slurm_partition=public
+Shell command: gatk --java-options "-Xmx40960m" HaplotypeCaller 		-R /scratch/acchapm1/sn9-detect/demo/references/reference.fa 		-I pipeline/mark_dups/child.sorted.mark_dups.1.bam 		-ERC GVCF 		--minimum-mapping-quality 40 		--max-reads-per-alignment-start 0 		--pcr-indel-model NONE 		-O pipeline/call_variants/child.test_4.1.g.vcf 		-L test_4 		--tmp-dir <TBD> 		-bamout pipeline/call_variants/child.test_4.1.reassembled.bam
+host: sc064
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Nov  3 14:03:19 2025]
+localrule CallVariants:
+    input: /scratch/acchapm1/sn9-detect/demo/references/reference.fa, pipeline/mark_dups/child.sorted.mark_dups.1.bam, pipeline/mark_dups/child.sorted.mark_dups.1.bai
+    output: pipeline/call_variants/child.test_4.1.g.vcf, pipeline/call_variants/child.test_4.1.reassembled.bam, pipeline/call_variants/child.test_4.1.reassembled.bai
+    jobid: 0
+    reason: Forced execution
+    wildcards: indiv=child, chromosome=test_4, iter=1
+    resources: mem_mb=40960, mem_mib=39063, disk_mb=1000, disk_mib=954, tmpdir=pipeline/call_variants/, cpus=1, runtime=480, slurm_partition=public
+Shell command: gatk --java-options "-Xmx40960m" HaplotypeCaller 		-R /scratch/acchapm1/sn9-detect/demo/references/reference.fa 		-I pipeline/mark_dups/child.sorted.mark_dups.1.bam 		-ERC GVCF 		--minimum-mapping-quality 40 		--max-reads-per-alignment-start 0 		--pcr-indel-model NONE 		-O pipeline/call_variants/child.test_4.1.g.vcf 		-L test_4 		--tmp-dir pipeline/call_variants/ 		-bamout pipeline/call_variants/child.test_4.1.reassembled.bam
+Using GATK jar /home/acchapm1/.conda/envs/sn9detect/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar
+Running:
+    java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -Xmx40960m -jar /home/acchapm1/.conda/envs/sn9detect/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar HaplotypeCaller -R /scratch/acchapm1/sn9-detect/demo/references/reference.fa -I pipeline/mark_dups/child.sorted.mark_dups.1.bam -ERC GVCF --minimum-mapping-quality 40 --max-reads-per-alignment-start 0 --pcr-indel-model NONE -O pipeline/call_variants/child.test_4.1.g.vcf -L test_4 --tmp-dir pipeline/call_variants/ -bamout pipeline/call_variants/child.test_4.1.reassembled.bam
+14:03:22.742 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/home/acchapm1/.conda/envs/sn9detect/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
+14:03:23.113 INFO  HaplotypeCaller - ------------------------------------------------------------
+14:03:23.115 INFO  HaplotypeCaller - The Genome Analysis Toolkit (GATK) v4.6.2.0
+14:03:23.116 INFO  HaplotypeCaller - For support and documentation go to https://software.broadinstitute.org/gatk/
+14:03:23.116 INFO  HaplotypeCaller - Executing as acchapm1@sc064 on Linux v4.18.0-553.77.1.el8_10.x86_64 amd64
+14:03:23.116 INFO  HaplotypeCaller - Java runtime: OpenJDK 64-Bit Server VM v17.0.15-internal+0-adhoc..src
+14:03:23.116 INFO  HaplotypeCaller - Start Date/Time: November 3, 2025 at 2:03:22 PM MST
+14:03:23.116 INFO  HaplotypeCaller - ------------------------------------------------------------
+14:03:23.116 INFO  HaplotypeCaller - ------------------------------------------------------------
+14:03:23.117 INFO  HaplotypeCaller - HTSJDK Version: 4.2.0
+14:03:23.117 INFO  HaplotypeCaller - Picard Version: 3.4.0
+14:03:23.117 INFO  HaplotypeCaller - Built for Spark Version: 3.5.0
+14:03:23.124 INFO  HaplotypeCaller - HTSJDK Defaults.COMPRESSION_LEVEL : 2
+14:03:23.125 INFO  HaplotypeCaller - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
+14:03:23.125 INFO  HaplotypeCaller - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
+14:03:23.125 INFO  HaplotypeCaller - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
+14:03:23.125 INFO  HaplotypeCaller - Deflater: IntelDeflater
+14:03:23.125 INFO  HaplotypeCaller - Inflater: IntelInflater
+14:03:23.125 INFO  HaplotypeCaller - GCS max retries/reopens: 20
+14:03:23.125 INFO  HaplotypeCaller - Requester pays: disabled
+14:03:23.126 INFO  HaplotypeCaller - Initializing engine
+14:03:23.281 INFO  IntervalArgumentCollection - Processing 1000000 bp from intervals
+14:03:23.285 INFO  HaplotypeCaller - Done initializing engine
+14:03:23.286 INFO  HaplotypeCallerEngine - Tool is in reference confidence mode and the annotation, the following changes will be made to any specified annotations: 'StrandBiasBySample' will be enabled. 'ChromosomeCounts', 'FisherStrand', 'StrandOddsRatio' and 'QualByDepth' annotations have been disabled
+14:03:23.317 INFO  NativeLibraryLoader - Loading libgkl_utils.so from jar:file:/home/acchapm1/.conda/envs/sn9detect/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar!/com/intel/gkl/native/libgkl_utils.so
+14:03:23.371 INFO  NativeLibraryLoader - Loading libgkl_smithwaterman.so from jar:file:/home/acchapm1/.conda/envs/sn9detect/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar!/com/intel/gkl/native/libgkl_smithwaterman.so
+14:03:23.593 INFO  SmithWatermanAligner - Using AVX accelerated SmithWaterman implementation
+14:03:23.596 INFO  HaplotypeCallerEngine - Standard Emitting and Calling confidence set to -0.0 for reference-model confidence output
+14:03:23.596 INFO  HaplotypeCallerEngine - All sites annotated with PLs forced to true for reference-model confidence output
+14:03:23.682 INFO  NativeLibraryLoader - Loading libgkl_pairhmm_omp.so from jar:file:/home/acchapm1/.conda/envs/sn9detect/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar!/com/intel/gkl/native/libgkl_pairhmm_omp.so
+14:03:23.775 INFO  IntelPairHmm - Flush-to-zero (FTZ) is enabled when running PairHMM
+14:03:23.775 INFO  IntelPairHmm - Available threads: 1
+14:03:23.776 INFO  IntelPairHmm - Requested threads: 4
+14:03:23.776 WARN  IntelPairHmm - Using 1 available threads, but 4 were requested
+14:03:23.776 INFO  PairHMM - Using the OpenMP multi-threaded AVX-accelerated native PairHMM implementation
+14:03:23.844 INFO  ProgressMeter - Starting traversal
+14:03:23.844 INFO  ProgressMeter -        Current Locus  Elapsed Minutes     Regions Processed   Regions/Minute
+14:03:24.925 WARN  InbreedingCoeff - InbreedingCoeff will not be calculated at position test_4:826 and possibly subsequent; at least 10 samples must have called genotypes
+14:03:33.953 INFO  ProgressMeter -         test_4:83357              0.2                   440           2612.1
+14:03:43.984 INFO  ProgressMeter -        test_4:272608              0.3                  1390           4141.2
+14:03:44.198 WARN  DepthPerSampleHC - org.broadinstitute.hellbender.tools.walkers.annotator.DepthPerSampleHC$$Lambda$571/0x0000154aec61e4a8@4ea47e9b
+14:03:44.204 WARN  StrandBiasBySample - org.broadinstitute.hellbender.tools.walkers.annotator.StrandBiasBySample$$Lambda$572/0x0000154aec61e6d0@2b5f0ac8
+14:03:54.006 INFO  ProgressMeter -        test_4:475638              0.5                  2380           4734.6
+14:04:04.057 INFO  ProgressMeter -        test_4:795023              0.7                  4030           6013.3
+14:04:09.789 INFO  HaplotypeCaller - 0 read(s) filtered by: MappingQualityReadFilter 
+0 read(s) filtered by: MappingQualityAvailableReadFilter 
+0 read(s) filtered by: MappedReadFilter 
+0 read(s) filtered by: NotSecondaryAlignmentReadFilter 
+196 read(s) filtered by: NotDuplicateReadFilter 
+0 read(s) filtered by: PassesVendorQualityCheckReadFilter 
+0 read(s) filtered by: NonZeroReferenceLengthAlignmentReadFilter 
+0 read(s) filtered by: GoodCigarReadFilter 
+0 read(s) filtered by: WellformedReadFilter 
+196 total reads filtered out of 301160 reads processed
+14:04:09.790 INFO  ProgressMeter -        test_4:998866              0.8                  5056           6602.8
+14:04:09.790 INFO  ProgressMeter - Traversal complete. Processed 5056 total regions in 0.8 minutes.
+14:04:10.103 INFO  VectorLoglessPairHMM - Time spent in setup for JNI call : 0.021286387
+14:04:10.103 INFO  PairHMM - Total compute time in PairHMM computeLogLikelihoods() : 1.039753965
+14:04:10.103 INFO  SmithWatermanAligner - Total compute time in native Smith-Waterman : 0.63 sec
+14:04:11.027 INFO  HaplotypeCaller - Shutting down engine
+[November 3, 2025 at 2:04:11 PM MST] org.broadinstitute.hellbender.tools.walkers.haplotypecaller.HaplotypeCaller done. Elapsed time: 0.81 minutes.
+Runtime.totalMemory()=648806400
+[Mon Nov  3 14:04:11 2025]
+Finished jobid: 0 (Rule: CallVariants)
+1 of 1 steps (100%) done
+Storing output in storage.
+[Mon Nov  3 14:04:13 2025]
+Finished jobid: 0 (Rule: CallVariants)
+1 of 1 steps (100%) done
+Storing output in storage.

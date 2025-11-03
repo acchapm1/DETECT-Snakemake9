@@ -1,0 +1,41 @@
+host: sc009
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided remote nodes: 1
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Nov  3 14:00:26 2025]
+rule DownsampleBam:
+    input: pipeline/sorted_bams/child.1.bam
+    output: pipeline/sorted_bams/child.downsampled.1.bam
+    jobid: 0
+    reason: Forced execution
+    wildcards: iter=1
+    resources: mem_mb=24000, mem_mib=22889, disk_mb=1000, disk_mib=954, tmpdir=<TBD>, cpus=12, runtime=240, slurm_partition=public
+Shell command: samtools view 		-@ 12 -b -s 0.83333333 		pipeline/sorted_bams/child.1.bam > pipeline/sorted_bams/child.downsampled.1.bam
+host: sc009
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Nov  3 14:00:29 2025]
+localrule DownsampleBam:
+    input: pipeline/sorted_bams/child.1.bam
+    output: pipeline/sorted_bams/child.downsampled.1.bam
+    jobid: 0
+    reason: Forced execution
+    wildcards: iter=1
+    resources: mem_mb=24000, mem_mib=22889, disk_mb=1000, disk_mib=954, tmpdir=/tmp, cpus=12, runtime=240, slurm_partition=public
+Shell command: samtools view 		-@ 12 -b -s 0.83333333 		pipeline/sorted_bams/child.1.bam > pipeline/sorted_bams/child.downsampled.1.bam
+[Mon Nov  3 14:00:42 2025]
+Finished jobid: 0 (Rule: DownsampleBam)
+1 of 1 steps (100%) done
+Storing output in storage.
+[Mon Nov  3 14:00:42 2025]
+Finished jobid: 0 (Rule: DownsampleBam)
+1 of 1 steps (100%) done
+Storing output in storage.

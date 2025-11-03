@@ -1,0 +1,17 @@
+# Snakemake 9 profile for SLURM executor plugin
+executor: slurm
+printshellcmds: true
+keep-going: true
+rerun-incomplete: true
+latency-wait: 60
+jobs: 100
+scheduler: greedy
+default-resources:
+  - mem_mb=8000
+  - cpus=1
+slurm-logdir: logs
+
+# Job naming configuration (easily reversible)
+# To disable: comment out the jobname line below
+# To enable: uncomment the jobname line below
+jobname: "{rulename}.{jobid}"

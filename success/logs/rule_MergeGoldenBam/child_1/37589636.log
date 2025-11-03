@@ -1,0 +1,41 @@
+host: sc092
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided remote nodes: 1
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Nov  3 13:56:12 2025]
+rule MergeGoldenBam:
+    input: pipeline/reads/child_1_1_1.golden.bam, pipeline/reads/child_1_1_2.golden.bam, pipeline/reads/child_2_1_1.golden.bam, pipeline/reads/child_2_1_2.golden.bam, pipeline/reads/child_3_1_1.golden.bam, pipeline/reads/child_3_1_2.golden.bam, pipeline/reads/child_4_1_1.golden.bam, pipeline/reads/child_4_1_2.golden.bam, pipeline/reads/child_5_1_1.golden.bam, pipeline/reads/child_5_1_2.golden.bam, pipeline/reads/child_6_1_1.golden.bam, pipeline/reads/child_6_1_2.golden.bam, pipeline/reads/child_7_1_1.golden.bam, pipeline/reads/child_7_1_2.golden.bam, pipeline/reads/child_8_1_1.golden.bam, pipeline/reads/child_8_1_2.golden.bam
+    output: pipeline/reads/child_1.golden.bam
+    jobid: 0
+    reason: Forced execution
+    wildcards: indiv=child, iter=1
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=<TBD>, cpus=12, runtime=480, slurm_partition=public
+Shell command: samtools merge 		-@ 12 		-o pipeline/reads/child_1.golden.bam 		pipeline/reads/child_1_1_1.golden.bam pipeline/reads/child_1_1_2.golden.bam pipeline/reads/child_2_1_1.golden.bam pipeline/reads/child_2_1_2.golden.bam pipeline/reads/child_3_1_1.golden.bam pipeline/reads/child_3_1_2.golden.bam pipeline/reads/child_4_1_1.golden.bam pipeline/reads/child_4_1_2.golden.bam pipeline/reads/child_5_1_1.golden.bam pipeline/reads/child_5_1_2.golden.bam pipeline/reads/child_6_1_1.golden.bam pipeline/reads/child_6_1_2.golden.bam pipeline/reads/child_7_1_1.golden.bam pipeline/reads/child_7_1_2.golden.bam pipeline/reads/child_8_1_1.golden.bam pipeline/reads/child_8_1_2.golden.bam
+host: sc092
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Nov  3 13:56:16 2025]
+localrule MergeGoldenBam:
+    input: pipeline/reads/child_1_1_1.golden.bam, pipeline/reads/child_1_1_2.golden.bam, pipeline/reads/child_2_1_1.golden.bam, pipeline/reads/child_2_1_2.golden.bam, pipeline/reads/child_3_1_1.golden.bam, pipeline/reads/child_3_1_2.golden.bam, pipeline/reads/child_4_1_1.golden.bam, pipeline/reads/child_4_1_2.golden.bam, pipeline/reads/child_5_1_1.golden.bam, pipeline/reads/child_5_1_2.golden.bam, pipeline/reads/child_6_1_1.golden.bam, pipeline/reads/child_6_1_2.golden.bam, pipeline/reads/child_7_1_1.golden.bam, pipeline/reads/child_7_1_2.golden.bam, pipeline/reads/child_8_1_1.golden.bam, pipeline/reads/child_8_1_2.golden.bam
+    output: pipeline/reads/child_1.golden.bam
+    jobid: 0
+    reason: Forced execution
+    wildcards: indiv=child, iter=1
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, cpus=12, runtime=480, slurm_partition=public
+Shell command: samtools merge 		-@ 12 		-o pipeline/reads/child_1.golden.bam 		pipeline/reads/child_1_1_1.golden.bam pipeline/reads/child_1_1_2.golden.bam pipeline/reads/child_2_1_1.golden.bam pipeline/reads/child_2_1_2.golden.bam pipeline/reads/child_3_1_1.golden.bam pipeline/reads/child_3_1_2.golden.bam pipeline/reads/child_4_1_1.golden.bam pipeline/reads/child_4_1_2.golden.bam pipeline/reads/child_5_1_1.golden.bam pipeline/reads/child_5_1_2.golden.bam pipeline/reads/child_6_1_1.golden.bam pipeline/reads/child_6_1_2.golden.bam pipeline/reads/child_7_1_1.golden.bam pipeline/reads/child_7_1_2.golden.bam pipeline/reads/child_8_1_1.golden.bam pipeline/reads/child_8_1_2.golden.bam
+[Mon Nov  3 13:56:31 2025]
+Finished jobid: 0 (Rule: MergeGoldenBam)
+1 of 1 steps (100%) done
+Storing output in storage.
+[Mon Nov  3 13:56:31 2025]
+Finished jobid: 0 (Rule: MergeGoldenBam)
+1 of 1 steps (100%) done
+Storing output in storage.

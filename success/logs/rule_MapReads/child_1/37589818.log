@@ -1,0 +1,67 @@
+host: sc009
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided remote nodes: 1
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Nov  3 13:58:58 2025]
+rule MapReads:
+    input: /scratch/acchapm1/sn9-detect/demo/references/reference.fa, pipeline/reads/child_1.R1.fq, pipeline/reads/child_1.R2.fq
+    output: pipeline/sorted_bams/child.1.bam
+    jobid: 0
+    reason: Forced execution
+    wildcards: indiv=child, iter=1
+    resources: mem_mb=24000, mem_mib=22889, disk_mb=1000, disk_mib=954, tmpdir=<TBD>, cpus=12, runtime=2880, slurm_partition=public
+Shell command: bwa mem 		-t 12		-R "@RG\tID:child_1\tSM:child\tPL:ILLUMINA" 		/scratch/acchapm1/sn9-detect/demo/references/reference.fa 		pipeline/reads/child_1.R1.fq pipeline/reads/child_1.R2.fq 		| samtools view -@ 12 -b - > pipeline/sorted_bams/child.1.bam
+host: sc009
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Nov  3 13:59:01 2025]
+localrule MapReads:
+    input: /scratch/acchapm1/sn9-detect/demo/references/reference.fa, pipeline/reads/child_1.R1.fq, pipeline/reads/child_1.R2.fq
+    output: pipeline/sorted_bams/child.1.bam
+    jobid: 0
+    reason: Forced execution
+    wildcards: indiv=child, iter=1
+    resources: mem_mb=24000, mem_mib=22889, disk_mb=1000, disk_mib=954, tmpdir=/tmp, cpus=12, runtime=2880, slurm_partition=public
+Shell command: bwa mem 		-t 12		-R "@RG\tID:child_1\tSM:child\tPL:ILLUMINA" 		/scratch/acchapm1/sn9-detect/demo/references/reference.fa 		pipeline/reads/child_1.R1.fq pipeline/reads/child_1.R2.fq 		| samtools view -@ 12 -b - > pipeline/sorted_bams/child.1.bam
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 1200000 sequences (120000000 bp)...
+[M::process] read 600000 sequences (60000000 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 600000, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (278, 298, 319)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (196, 401)
+[M::mem_pestat] mean and std.dev: (298.44, 29.92)
+[M::mem_pestat] low and high boundaries for proper pairs: (155, 442)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 1200000 reads in 32.492 CPU sec, 32.774 real sec
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 300000, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (278, 299, 319)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (196, 401)
+[M::mem_pestat] mean and std.dev: (298.52, 29.87)
+[M::mem_pestat] low and high boundaries for proper pairs: (155, 442)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 600000 reads in 16.360 CPU sec, 21.940 real sec
+[main] Version: 0.7.19-r1273
+[main] CMD: bwa mem -t 12 -R @RG\tID:child_1\tSM:child\tPL:ILLUMINA /scratch/acchapm1/sn9-detect/demo/references/reference.fa pipeline/reads/child_1.R1.fq pipeline/reads/child_1.R2.fq
+[main] Real time: 63.807 sec; CPU: 49.952 sec
+[Mon Nov  3 14:00:05 2025]
+Finished jobid: 0 (Rule: MapReads)
+1 of 1 steps (100%) done
+Storing output in storage.
+[Mon Nov  3 14:00:06 2025]
+Finished jobid: 0 (Rule: MapReads)
+1 of 1 steps (100%) done
+Storing output in storage.

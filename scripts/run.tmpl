@@ -1,0 +1,30 @@
+#!/bin/bash
+
+module load mamba/latest
+source activate sn9detect
+
+BASE="$(pwd)"
+
+python $BASE/DETECT/create_config.py \
+  -R __REFERENCE__ \
+  -U __MUTATION_RATE__ \
+  -CL __CHROM_LIST__ \
+  -FL __FRAGMENT_LENGTH__ -RL __READ_LENGTH__ -SD __FRAGMENT_SD__ \
+  -P "__PEDIGREE__" \
+  -C "__COVERAGES__" \
+  -V __INPUT_VCF__ \
+  --cpus __CPUS__ \
+  __TRIO_FLAG__ \
+  --num-iterations __NUM_ITERATIONS__ \
+  -WD __WORK_DIR__ \
+  -O __OUTPUT_DIR__
+
+echo "Config created Successfully"
+echo " "
+echo "Starting DETECT run"
+echo " "
+
+snakemake -p \
+  --profile profiles/slurm \
+  --configfile __WORK_DIR__/config/config.json \
+  -s DETECT/Snakefile

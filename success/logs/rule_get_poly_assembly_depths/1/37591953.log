@@ -1,0 +1,79 @@
+host: sc068
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided remote nodes: 1
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Nov  3 14:18:28 2025]
+rule get_poly_assembly_depths:
+    input: pipeline/MV/trio.all_chr.MV.polymorphisms.1.vcf, pipeline/call_variants/parent_1.test_1.1.reassembled.bam, pipeline/call_variants/parent_2.test_1.1.reassembled.bam, pipeline/call_variants/child.test_1.1.reassembled.bam, pipeline/call_variants/parent_1.test_2.1.reassembled.bam, pipeline/call_variants/parent_2.test_2.1.reassembled.bam, pipeline/call_variants/child.test_2.1.reassembled.bam, pipeline/call_variants/parent_1.test_3.1.reassembled.bam, pipeline/call_variants/parent_2.test_3.1.reassembled.bam, pipeline/call_variants/child.test_3.1.reassembled.bam, pipeline/call_variants/parent_1.test_4.1.reassembled.bam, pipeline/call_variants/parent_2.test_4.1.reassembled.bam, pipeline/call_variants/child.test_4.1.reassembled.bam, pipeline/call_variants/parent_1.test_5.1.reassembled.bam, pipeline/call_variants/parent_2.test_5.1.reassembled.bam, pipeline/call_variants/child.test_5.1.reassembled.bam, pipeline/mark_dups/child.sorted.mark_dups.1.bam
+    output: pipeline/MV/trio.all_chr.MV.assembly_depths.polymorphisms.1.table
+    jobid: 0
+    reason: Forced execution
+    wildcards: iter=1
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=<TBD>, cpus=1, runtime=240, slurm_partition=htc
+Shell command: 
+{
+	echo "CHROM POS p1_reassembled p2_reassembled child_reassembled"
+		grep -v "#" pipeline/MV/trio.all_chr.MV.polymorphisms.1.vcf | awk '{print $1"\t"$2}' | while read chrom pos
+	do
+		p1_reassembled=$(samtools depth -aa -r ${chrom}:${pos}-${pos} pipeline/call_variants/parent_1.${chrom}.1.reassembled.bam | awk '{print $3}')
+		p2_reassembled=$(samtools depth -aa -r ${chrom}:${pos}-${pos} pipeline/call_variants/parent_2.${chrom}.1.reassembled.bam | awk '{print $3}')
+		ch_bqsr=$(samtools depth -aa -r ${chrom}:${pos}-${pos} pipeline/mark_dups/child.sorted.mark_dups.1.bam | awk '{print $3}')
+		ch_reassembled=$(samtools depth -aa -r ${chrom}:${pos}-${pos} pipeline/call_variants/child.${chrom}.1.reassembled.bam | awk '{print $3}')
+
+		if [ "$ch_bqsr" -gt "$ch_reassembled" ]; then
+			ch_diff=$((ch_bqsr - ch_reassembled))
+		else
+			ch_diff=$((ch_reassembled - ch_bqsr))
+		fi
+
+		echo "$chrom $pos $p1_reassembled $p2_reassembled $ch_diff"
+	done
+} > pipeline/MV/trio.all_chr.MV.assembly_depths.polymorphisms.1.table
+
+host: sc068
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Nov  3 14:18:34 2025]
+localrule get_poly_assembly_depths:
+    input: pipeline/MV/trio.all_chr.MV.polymorphisms.1.vcf, pipeline/call_variants/parent_1.test_1.1.reassembled.bam, pipeline/call_variants/parent_2.test_1.1.reassembled.bam, pipeline/call_variants/child.test_1.1.reassembled.bam, pipeline/call_variants/parent_1.test_2.1.reassembled.bam, pipeline/call_variants/parent_2.test_2.1.reassembled.bam, pipeline/call_variants/child.test_2.1.reassembled.bam, pipeline/call_variants/parent_1.test_3.1.reassembled.bam, pipeline/call_variants/parent_2.test_3.1.reassembled.bam, pipeline/call_variants/child.test_3.1.reassembled.bam, pipeline/call_variants/parent_1.test_4.1.reassembled.bam, pipeline/call_variants/parent_2.test_4.1.reassembled.bam, pipeline/call_variants/child.test_4.1.reassembled.bam, pipeline/call_variants/parent_1.test_5.1.reassembled.bam, pipeline/call_variants/parent_2.test_5.1.reassembled.bam, pipeline/call_variants/child.test_5.1.reassembled.bam, pipeline/mark_dups/child.sorted.mark_dups.1.bam
+    output: pipeline/MV/trio.all_chr.MV.assembly_depths.polymorphisms.1.table
+    jobid: 0
+    reason: Forced execution
+    wildcards: iter=1
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, cpus=1, runtime=240, slurm_partition=htc
+Shell command: 
+{
+	echo "CHROM POS p1_reassembled p2_reassembled child_reassembled"
+		grep -v "#" pipeline/MV/trio.all_chr.MV.polymorphisms.1.vcf | awk '{print $1"\t"$2}' | while read chrom pos
+	do
+		p1_reassembled=$(samtools depth -aa -r ${chrom}:${pos}-${pos} pipeline/call_variants/parent_1.${chrom}.1.reassembled.bam | awk '{print $3}')
+		p2_reassembled=$(samtools depth -aa -r ${chrom}:${pos}-${pos} pipeline/call_variants/parent_2.${chrom}.1.reassembled.bam | awk '{print $3}')
+		ch_bqsr=$(samtools depth -aa -r ${chrom}:${pos}-${pos} pipeline/mark_dups/child.sorted.mark_dups.1.bam | awk '{print $3}')
+		ch_reassembled=$(samtools depth -aa -r ${chrom}:${pos}-${pos} pipeline/call_variants/child.${chrom}.1.reassembled.bam | awk '{print $3}')
+
+		if [ "$ch_bqsr" -gt "$ch_reassembled" ]; then
+			ch_diff=$((ch_bqsr - ch_reassembled))
+		else
+			ch_diff=$((ch_reassembled - ch_bqsr))
+		fi
+
+		echo "$chrom $pos $p1_reassembled $p2_reassembled $ch_diff"
+	done
+} > pipeline/MV/trio.all_chr.MV.assembly_depths.polymorphisms.1.table
+
+[Mon Nov  3 14:18:37 2025]
+Finished jobid: 0 (Rule: get_poly_assembly_depths)
+1 of 1 steps (100%) done
+Storing output in storage.
+[Mon Nov  3 14:18:38 2025]
+Finished jobid: 0 (Rule: get_poly_assembly_depths)
+1 of 1 steps (100%) done
+Storing output in storage.

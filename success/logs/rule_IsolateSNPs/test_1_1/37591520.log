@@ -1,0 +1,92 @@
+host: sc097
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided remote nodes: 1
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Nov  3 14:14:23 2025]
+rule IsolateSNPs:
+    input: pipeline/genotype_variants/trio.test_1.1.vcf
+    output: pipeline/SNP/trio.test_1.snp.1.vcf
+    jobid: 0
+    reason: Forced execution
+    wildcards: chromosome=test_1, iter=1
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=<TBD>, cpus=1, runtime=15, slurm_partition=htc
+Shell command: 
+				gatk SelectVariants \
+				-V pipeline/genotype_variants/trio.test_1.1.vcf \
+				--restrict-alleles-to BIALLELIC \
+				--select-type-to-include SNP \
+				--exclude-filtered true \
+				--exclude-non-variants true \
+				-select "AN==6" \
+				-O pipeline/SNP/trio.test_1.snp.1.vcf
+		
+host: sc097
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Select jobs to execute...
+Execute 1 jobs...
+
+[Mon Nov  3 14:14:25 2025]
+localrule IsolateSNPs:
+    input: pipeline/genotype_variants/trio.test_1.1.vcf
+    output: pipeline/SNP/trio.test_1.snp.1.vcf
+    jobid: 0
+    reason: Forced execution
+    wildcards: chromosome=test_1, iter=1
+    resources: mem_mb=8000, mem_mib=7630, disk_mb=1000, disk_mib=954, tmpdir=/tmp, cpus=1, runtime=15, slurm_partition=htc
+Shell command: 
+				gatk SelectVariants \
+				-V pipeline/genotype_variants/trio.test_1.1.vcf \
+				--restrict-alleles-to BIALLELIC \
+				--select-type-to-include SNP \
+				--exclude-filtered true \
+				--exclude-non-variants true \
+				-select "AN==6" \
+				-O pipeline/SNP/trio.test_1.snp.1.vcf
+		
+Using GATK jar /home/acchapm1/.conda/envs/sn9detect/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar
+Running:
+    java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -jar /home/acchapm1/.conda/envs/sn9detect/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar SelectVariants -V pipeline/genotype_variants/trio.test_1.1.vcf --restrict-alleles-to BIALLELIC --select-type-to-include SNP --exclude-filtered true --exclude-non-variants true -select AN==6 -O pipeline/SNP/trio.test_1.snp.1.vcf
+14:14:28.516 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/home/acchapm1/.conda/envs/sn9detect/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
+14:14:28.737 INFO  SelectVariants - ------------------------------------------------------------
+14:14:28.747 INFO  SelectVariants - The Genome Analysis Toolkit (GATK) v4.6.2.0
+14:14:28.748 INFO  SelectVariants - For support and documentation go to https://software.broadinstitute.org/gatk/
+14:14:28.748 INFO  SelectVariants - Executing as acchapm1@sc097 on Linux v4.18.0-553.77.1.el8_10.x86_64 amd64
+14:14:28.748 INFO  SelectVariants - Java runtime: OpenJDK 64-Bit Server VM v17.0.15-internal+0-adhoc..src
+14:14:28.749 INFO  SelectVariants - Start Date/Time: November 3, 2025 at 2:14:28 PM MST
+14:14:28.749 INFO  SelectVariants - ------------------------------------------------------------
+14:14:28.749 INFO  SelectVariants - ------------------------------------------------------------
+14:14:28.750 INFO  SelectVariants - HTSJDK Version: 4.2.0
+14:14:28.750 INFO  SelectVariants - Picard Version: 3.4.0
+14:14:28.750 INFO  SelectVariants - Built for Spark Version: 3.5.0
+14:14:28.752 INFO  SelectVariants - HTSJDK Defaults.COMPRESSION_LEVEL : 2
+14:14:28.752 INFO  SelectVariants - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
+14:14:28.752 INFO  SelectVariants - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
+14:14:28.752 INFO  SelectVariants - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
+14:14:28.753 INFO  SelectVariants - Deflater: IntelDeflater
+14:14:28.753 INFO  SelectVariants - Inflater: IntelInflater
+14:14:28.753 INFO  SelectVariants - GCS max retries/reopens: 20
+14:14:28.753 INFO  SelectVariants - Requester pays: disabled
+14:14:28.753 INFO  SelectVariants - Initializing engine
+14:14:28.919 INFO  FeatureManager - Using codec VCFCodec to read file file:///scratch/acchapm1/sn9-detect/work/pipeline/genotype_variants/trio.test_1.1.vcf
+14:14:28.959 INFO  SelectVariants - Done initializing engine
+14:14:29.215 INFO  ProgressMeter - Starting traversal
+14:14:29.222 INFO  ProgressMeter -        Current Locus  Elapsed Minutes    Variants Processed  Variants/Minute
+14:14:29.975 INFO  ProgressMeter -        test_1:934742              0.0                  2138         170812.3
+14:14:29.975 INFO  ProgressMeter - Traversal complete. Processed 2138 total variants in 0.0 minutes.
+14:14:30.250 INFO  SelectVariants - Shutting down engine
+[November 3, 2025 at 2:14:30 PM MST] org.broadinstitute.hellbender.tools.walkers.variantutils.SelectVariants done. Elapsed time: 0.03 minutes.
+Runtime.totalMemory()=127795200
+[Mon Nov  3 14:14:30 2025]
+Finished jobid: 0 (Rule: IsolateSNPs)
+1 of 1 steps (100%) done
+Storing output in storage.
+[Mon Nov  3 14:14:30 2025]
+Finished jobid: 0 (Rule: IsolateSNPs)
+1 of 1 steps (100%) done
+Storing output in storage.
