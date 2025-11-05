@@ -1,4 +1,6 @@
 work/*
+work.old/*
+data/
 success/*
 unused/*
 .snakemake/*
