@@ -14,4 +14,4 @@ slurm-logdir: logs
 # Job naming configuration (easily reversible)
 # To disable: comment out the jobname line below
 # To enable: uncomment the jobname line below
-jobname: "{rulename}.{jobid}"
+jobname: "Snakemake {rulename}.{jobid}"
