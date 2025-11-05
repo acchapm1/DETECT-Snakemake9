@@ -10,22 +10,11 @@ workdir: config["working_directory"]
 num_chroms = len(config["chroms"].keys())
 read_cutoff = 1e6
 
-RESOURCE_PROFILES = {
-	"short": {"time_min": 15, "partition": "htc"},
-	"medium": {"time_min": 240, "partition": "htc"},
-	"long": {"time_min": 480, "partition": "public"},
-	"very_long": {"time_min": 720, "partition": "public"},
-	"extra_long": {"time_min": 2880, "partition": "public"},
-	"extreme": {"time_min": 5760, "partition": "public"},
-}
-
 def get_partition(wildcards, runtime_minutes):
 	for profile_name, profile in sorted(RESOURCE_PROFILES.items(), key=lambda x: x[1]["time_min"]):
 		if runtime_minutes <= profile["time_min"]:
 			return profile["partition"]
 	return RESOURCE_PROFILES["extreme"]["partition"]
-
-#TODO Clean up shell commands
 
 pp = pprint.PrettyPrinter(indent=4)
 

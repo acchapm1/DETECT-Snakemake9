@@ -9,4 +9,5 @@
 #SBATCH --output=logs/{rulename}.{jobid}.%j.out
 #SBATCH --error=logs/{rulename}.{jobid}.%j.err
 
+
 {resources.shellcmd}
