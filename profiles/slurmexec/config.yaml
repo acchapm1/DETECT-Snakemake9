@@ -1,0 +1,17 @@
+# Snakemake 9 profile for SLURM executor plugin
+executor: slurm
+printshellcmds: true
+keep-going: true
+rerun-incomplete: true
+latency-wait: 60
+jobs: 100
+scheduler: greedy
+default-resources:
+  - mem_mb=8000
+  - cpus=4
+slurm-logdir: logs
+
+# Job names are automatically set by Snakemake for internal tracking
+# To view rule names in squeue, use the comment field:
+# squeue -u acchapm1 -o "%.18i %.9P %.40k %.8u %.2t %.10M"
+# where %.40k displays the comment field containing the rule name
