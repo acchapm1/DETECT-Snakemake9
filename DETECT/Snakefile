@@ -74,8 +74,8 @@ rule RenameInputTrioVCF:
 		ch = config["names"]["child"],
 		snakedir = SNAKEDIR
 	resources:
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	shell:
 		'python {params.snakedir}/scripts/rename_samples.py {input}  \"{params.p1},{params.p2},{params.ch}\" > {output} && gatk IndexFeatureFile -I {output}'
 
@@ -89,8 +89,8 @@ rule Mutate:
 		snakedir = SNAKEDIR
 	resources:
 		mem_mb = 8000,
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	shell:
 		'python {params.snakedir}/scripts/mutator.py -i {input.fa} -u {params.mu} -p \"parent_1,parent_2,child\" -n {wildcards.iter} -o {output.muts} && gatk IndexFeatureFile -I {output.muts}'
 
@@ -100,8 +100,8 @@ rule SplitFasta:
 	output:
 		'pipeline/mutations/{chromosome}.fa'
 	resources:
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	shell:
 		'samtools faidx {input} {wildcards.chromosome} > {output}'
 
@@ -113,8 +113,8 @@ rule ReformatMutations:
 	params:
 		snakedir=config["snakemake_dir"]
 	resources:
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	shell:
 		'python {params.snakedir}/scripts/reformat_vcf.py {input.muts} > {output} && gatk IndexFeatureFile -I {output}'
 
@@ -124,8 +124,8 @@ rule splitVCF:
 	output:
 		'pipeline/mutations/polymorphisms.{chromosome}.phased.vcf'
 	resources:
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	retries: 20
 	shell:
 		'gatk SelectVariants -V {input} -L {wildcards.chromosome} -O {output} && gatk IndexFeatureFile -I {output}'
@@ -140,8 +140,8 @@ rule VCFtoFasta:
 	params:
 		snakedir=config["snakemake_dir"]
 	resources:
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	shell:
 		'python {params.snakedir}/scripts/vcf2fasta.py -i {input.ref} -v {input.vcf} -s {wildcards.indiv} -o pipeline/ref/{wildcards.indiv}.{wildcards.chromosome}'
 
@@ -177,8 +177,8 @@ rule MergeFastas:
 	output:
 		'pipeline/ref/{indiv}.{genome}.fa'
 	resources:
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	shell:
 		'cat {input} > {output}'
 
@@ -196,10 +196,12 @@ rule SimulateReads:
 		read_count = get_reads_per_sim,
 	retries: 20
 	resources:
-		mem_mb=get_mem_mb,
-		runtime=240,
-		cpus=config['num_cores'],
-		slurm_partition="htc"
+		mem_mb = get_mem_mb,
+		runtime = 240,
+		cpus = config['num_cores'],
+		slurm_partition = "htc"
+	threads:
+		int(config['num_cores'])
 	shell:
 		"""mason_simulator \
 		--read-name-prefix "simulated_{wildcards.indiv}_{wildcards.sim}_{wildcards.iter}_{wildcards.genome}" \
@@ -218,10 +220,12 @@ rule MergeGoldenBam:
 		expand('pipeline/reads/{{indiv}}_{sim}_{{iter}}_{genome}.golden.bam',sim=np.arange(1,9,1),genome=[1,2])
 	output:
 		temp('pipeline/reads/{indiv}_{iter}.golden.bam')
+	threads:
+		int(config['num_cores'])
 	resources:
-		runtime=480,
-		cpus=config['num_cores'],
-		slurm_partition="public"
+		runtime = 480,
+		cpus = config['num_cores'],
+		slurm_partition = "public"
 	shell:
 		'samtools merge \
 		-@ {resources.cpus} \
@@ -234,9 +238,11 @@ rule MutateGoldenBam:
 		vcf='pipeline/mutations/input_mutations.{iter}.phased.reformatted.vcf'
 	output:
 		temp('pipeline/reads/child_{iter}.golden.mutated.bam')
+	threads:
+		int(config['num_cores'])
 	resources:
-		runtime=5760,
-		slurm_partition="public"
+		runtime = 5760,
+		slurm_partition = "public"
 	shell:
 		'jvarkit biostar404363 \
 		-p {input.vcf} \
@@ -249,9 +255,11 @@ rule SamToFastq:
 	output:
 		fq1=temp('pipeline/reads/{indiv}_{iter}.R1.fq'),
 		fq2=temp('pipeline/reads/{indiv}_{iter}.R2.fq')
+	threads:
+		int(config['num_cores'])
 	resources:
-		runtime=60,
-		slurm_partition="htc"
+		runtime = 60,
+		slurm_partition = "htc"
 	shell:
 		'gatk SamToFastq \
 		-I {input} \
@@ -265,11 +273,13 @@ rule MapReads:
 		fq2 = 'pipeline/reads/{indiv}_{iter}.R2.fq',
 	output:
 		temp('pipeline/sorted_bams/{indiv}.{iter}.bam')
+	threads:
+		int(config['num_cores'])
 	resources:
 		mem_mb = 2000 * config['num_cores'],
-		runtime=2880,
-		cpus=config['num_cores'],
-		slurm_partition="public"
+		runtime = 2880,
+		cpus = config['num_cores'],
+		slurm_partition = "public"
 	shell:
 		'bwa mem \
 		-t {resources.cpus}\
@@ -283,12 +293,13 @@ rule DownsampleBam:
 		'pipeline/sorted_bams/child.{iter}.bam'
 	output:
 		temp('pipeline/sorted_bams/child.downsampled.{iter}.bam')
+	threads:
+		int(config['num_cores'])
 	resources:
 		mem_mb = 2000 * config['num_cores'],
-		runtime=240,
-		cpus=config['num_cores'],
-		slurm_partition="public"
-	
+		runtime = 240,
+		cpus = config['num_cores'],
+		slurm_partition = "public"
 	shell:
 		'samtools view \
 		-@ {resources.cpus} -b -s 0.83333333 \
@@ -299,11 +310,13 @@ rule SortBam:
 		lambda wildcards: 'pipeline/sorted_bams/child.downsampled.{iter}.bam' if wildcards.indiv == 'child' else 'pipeline/sorted_bams/{indiv}.{iter}.bam'
 	output:
 		temp('pipeline/sorted_bams/{indiv}.sorted.{iter}.bam')
+	threads:
+		int(config['num_cores'])
 	resources:
-		mem_mb=64000, # lambda wc, input: max(input.size_mb*2,1024),
-		runtime=720,
-		cpus=config['num_cores'],
-		slurm_partition="public"
+		mem_mb = 64000, # lambda wc, input: max(input.size_mb*2,1024),
+		runtime = 720,
+		cpus = config['num_cores'],
+		slurm_partition = "public"
 	shell:
 		'samtools sort -@ {resources.cpus} {input} > {output}'
 	
@@ -315,12 +328,14 @@ rule MarkDuplicates:
 		output_bam = 'pipeline/mark_dups/{indiv}.sorted.mark_dups.{iter}.bam',
 		output_bai = 'pipeline/mark_dups/{indiv}.sorted.mark_dups.{iter}.bai',
 		output_metrics = temp('pipeline/mark_dups/{indiv}.sorted.mark_dups.metrics.{iter}.txt')
+	threads:
+		int(config['num_cores'])
 	resources:
-		runtime=2880,
-		mem_mb=64000, # lambda wc, input: input.size_mb*2,
-		cpus=config['num_cores'],
-		tmpdir='pipeline/mark_dups/',
-		slurm_partition="public"
+		runtime = 2880,
+		mem_mb = 64000, # lambda wc, input: input.size_mb*2,
+		cpus = config['num_cores'],
+		tmpdir = 'pipeline/mark_dups/',
+		slurm_partition = "public"
 	shell:
 		'gatk --java-options "-Xmx{resources.mem_mb}m" MarkDuplicates \
 		-I {input} \
@@ -336,11 +351,13 @@ rule BQSR:
 		reference = config['reference_genome']
 	output:
 		'pipeline/BQSR/{indiv}.sorted.mark_dups.BQSR.{iter}.txt'
+	threads:
+		int(config['num_cores'])
 	resources:
-		tmpdir='pipeline/BQSR/',
-		runtime=480,
-		cpus=config['num_cores'],
-		slurm_partition="public"
+		tmpdir = 'pipeline/BQSR/',
+		runtime = 480,
+		cpus = config['num_cores'],
+		slurm_partition = "public"
 	shell:
 		'gatk BaseRecalibrator \
 		-R {input.reference} \
@@ -357,11 +374,13 @@ rule ApplyBQSR:
 	output:
 		output_bam = 'pipeline/BQSR/{indiv}.sorted.mark_dups.BQSR.{iter}.bam',
 		output_bai = 'pipeline/BQSR/{indiv}.sorted.mark_dups.BQSR.{iter}.bai'
+	threads:
+		int(config['num_cores'])
 	resources:
-		tmpdir='pipeline/BQSR/',
-		runtime=720,
-		cpus=config['num_cores'],
-		slurm_partition="public"
+		tmpdir = 'pipeline/BQSR/',
+		runtime = 720,
+		cpus = config['num_cores'],
+		slurm_partition = "public"
 	shell:
 		'gatk ApplyBQSR \
 		-I {input.bam} \
@@ -380,12 +399,14 @@ rule CallVariants:
 		output_vcf = 'pipeline/call_variants/{indiv}.{chromosome}.{iter}.g.vcf',
 		reassembled_bam = 'pipeline/call_variants/{indiv}.{chromosome}.{iter}.reassembled.bam',
 		reassembled_bai = 'pipeline/call_variants/{indiv}.{chromosome}.{iter}.reassembled.bai'
+	threads:
+		int(config['num_cores'])
 	resources:
-		tmpdir='pipeline/call_variants/',
-		runtime=480,
-		mem_mb=40960,
-		cpus=config["num_cores"],
-		slurm_partition="public"
+		tmpdir = 'pipeline/call_variants/',
+		runtime = 480,
+		mem_mb = 40960,
+		cpus = config["num_cores"],
+		slurm_partition = "public"
 	shell:
 		'gatk --java-options "-Xmx{resources.mem_mb}m" HaplotypeCaller \
 		-R {input.reference} \
@@ -408,11 +429,13 @@ rule CombineVariants:
 	output:
 		output_dir = directory('pipeline/genotype_variants/trio.{chromosome}.{iter}'),
 		callset = 'pipeline/genotype_variants/trio.{chromosome}.{iter}/callset.json'
+	threads:
+		int(config['num_cores'])
 	resources:
-		runtime=480,
-		mem_mb=40960,
-		cpus=config["num_cores"],
-		slurm_partition="public"
+		runtime = 480,
+		mem_mb = 40960,
+		cpus = config["num_cores"],
+		slurm_partition = "public"
 	shell:
 		'rm -r {output.output_dir} && gatk --java-options "-Xmx{resources.mem_mb}m" \
 		GenomicsDBImport \
@@ -430,12 +453,14 @@ rule GenotypeVariants:
 		reference = config['reference_genome']
 	output:
 		'pipeline/genotype_variants/trio.{chromosome}.{iter}.vcf'
+	threads:
+		int(config['num_cores'])
 	resources:
-		tmpdir='pipeline/genotype_variants/',
-		runtime=240,
-		mem_mb=40960,
-		slurm_partition="htc",
-		cpus=config["num_cores"]
+		tmpdir = 'pipeline/genotype_variants/',
+		runtime = 240,
+		mem_mb = 40960,
+		slurm_partition = "htc",
+		cpus = config["num_cores"]
 	shell:
 		'gatk --java-options \"-Xmx{resources.mem_mb}m\" GenotypeGVCFs \
 		-R {input.reference} \
@@ -447,15 +472,14 @@ rule GenotypeVariants:
 		-A FisherStrand \
 		-O {output}'
 
-
 rule IsolateSNPs:
 	input:
 		'pipeline/genotype_variants/trio.{chromosome}.{iter}.vcf'
 	output:
 		'pipeline/SNP/trio.{chromosome}.snp.{iter}.vcf'
 	resources:
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	shell:
 		r"""
 				gatk SelectVariants \
@@ -474,10 +498,11 @@ rule IsolateMVs:
 	output:
 		'pipeline/MV/trio.{chromosome}.MV.{iter}.vcf'
 	resources:
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	shell:
 		'gatk SelectVariants -V {input} --select \'vc.getGenotype("parent_1").isHomRef() && vc.getGenotype("parent_2").isHomRef() && vc.getGenotype("child").isHet()\' -O {output}'
+
 rule MergeMVVCFs:
 	input:
 		expand('pipeline/MV/trio.{chromosome}.MV.{{iter}}.vcf', chromosome=config['chroms'].keys())
@@ -486,8 +511,8 @@ rule MergeMVVCFs:
 	params:
 		formatted = lambda wildcards, input: " ".join(f"-I {vcf}" for vcf in input)
 	resources:
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	shell:
 		'gatk MergeVcfs {params.formatted} -O {output}'
 
@@ -498,8 +523,8 @@ rule get_MV_muts:
 	output:
 		'pipeline/MV/trio.all_chr.MV.mutations.{iter}.vcf'
 	resources:
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	shell:
 		'gatk SelectVariants \
 		-V {input.vcf} \
@@ -512,8 +537,8 @@ rule get_muts_table:
 	output:
 		'pipeline/MV/trio.all_chr.MV.mutations.{iter}.table'
 	resources:
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	shell:
 		'gatk VariantsToTable \
 		-V {input} \
@@ -530,8 +555,8 @@ rule get_MV_poly:
 	output:
 		'pipeline/MV/trio.all_chr.MV.polymorphisms.{iter}.vcf'
 	resources:
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	shell:
 		'gatk SelectVariants -V {input.vcf} --concordance {input.poly_vcf} -O {output}'
 
@@ -541,8 +566,8 @@ rule get_poly_table:
 	output:
 		'pipeline/MV/trio.all_chr.MV.polymorphisms.{iter}.table'
 	resources:
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	shell:
 		'gatk VariantsToTable \
 		-V {input} -F CHROM -F POS \
@@ -559,8 +584,8 @@ rule get_MV_errors:
 	output:
 		'pipeline/MV/trio.all_chr.MV.errors.{iter}.vcf'
 	resources:
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	shell:
 		'gatk SelectVariants -V {input.vcf} --discordance {input.muts} -O pipeline/MV/trio.MV.all_chr.{wildcards.iter}.nomuts.vcf && gatk SelectVariants -V pipeline/MV/trio.MV.all_chr.{wildcards.iter}.nomuts.vcf --discordance {input.xvars} -O {output}'
 
@@ -570,8 +595,8 @@ rule get_errors_table:
 	output:
 		'pipeline/MV/trio.all_chr.MV.errors.{iter}.table'
 	resources:
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	shell:
 		'gatk VariantsToTable -V {input.input_vcf} -F CHROM -F POS -F QUAL -F BaseQRankSum -F MQRankSum -F ReadPosRankSum -F SOR -F FS -F QD -GF AD -GF DP -GF GQ -GF PL -O {output}'
 
@@ -582,10 +607,12 @@ rule get_mut_assembly_depths:
 				ch_bqsr_bam = 'pipeline/BQSR/child.sorted.mark_dups.BQSR.{iter}.bam' if 'known_variants' in config.keys() else 'pipeline/mark_dups/child.sorted.mark_dups.{iter}.bam'
 		output:
 				'pipeline/MV/trio.all_chr.MV.assembly_depths.mutations.{iter}.table'
+		threads:
+				int(config['num_cores'])
 		resources:
-				runtime=240,
-				cpus=config["num_cups"],
-				slurm_partition="htc"
+				runtime = 240,
+				cpus = config['num_cores'],
+				slurm_partition = "htc"
 		shell:r"""
 {{
 	echo "CHROM POS p1_reassembled p2_reassembled child_reassembled"
@@ -614,9 +641,11 @@ rule get_poly_assembly_depths:
 				ch_bqsr_bam = 'pipeline/BQSR/child.sorted.mark_dups.BQSR.{iter}.bam' if 'known_variants' in config.keys() else 'pipeline/mark_dups/child.sorted.mark_dups.{iter}.bam'
 		output:
 				'pipeline/MV/trio.all_chr.MV.assembly_depths.polymorphisms.{iter}.table'
+		threads:
+				int(config['num_cores'])
 		resources:
-				runtime=240,
-				slurm_partition="htc"
+				runtime = 240,
+				slurm_partition = "htc"
 		shell:r"""
 {{
 	echo "CHROM POS p1_reassembled p2_reassembled child_reassembled"
@@ -645,9 +674,11 @@ rule get_error_assembly_depths:
 				ch_bqsr_bam = 'pipeline/BQSR/child.sorted.mark_dups.BQSR.{iter}.bam' if 'known_variants' in config.keys() else 'pipeline/mark_dups/child.sorted.mark_dups.{iter}.bam'
 		output:
 				'pipeline/MV/trio.all_chr.MV.assembly_depths.errors.{iter}.table'
+		threads:
+				int(config['num_cores'])
 		resources:
-				runtime=720,
-				slurm_partition="public"
+				runtime = 720,
+				slurm_partition = "public"
 		shell:r"""
 {{
 	echo "CHROM POS p1_reassembled p2_reassembled child_reassembled"
@@ -682,8 +713,8 @@ rule make_output:
 	output:
 		config['outdir']+'/DETECT_output.{iter}.txt'
 	resources:
-		runtime=15,
-		slurm_partition="htc"
+		runtime = 15,
+		slurm_partition = "htc"
 	params:
 		snakedir=SNAKEDIR
 	shell:
