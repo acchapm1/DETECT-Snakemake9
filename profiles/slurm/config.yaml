@@ -8,7 +8,7 @@ jobs: 100
 scheduler: greedy
 default-resources:
   - mem_mb=8000
-  - cpus=1
+  - cpus=2
 slurm-logdir: logs
 
 # Job names are automatically set by Snakemake for internal tracking
