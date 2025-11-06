@@ -198,7 +198,7 @@ rule SimulateReads:
 	resources:
 		mem_mb=get_mem_mb,
 		runtime=240,
-		cpus=int(config['num_cores']),
+		cpus=config['num_cores'],
 		slurm_partition="htc"
 	shell:
 		"""mason_simulator \
@@ -220,7 +220,7 @@ rule MergeGoldenBam:
 		temp('pipeline/reads/{indiv}_{iter}.golden.bam')
 	resources:
 		runtime=480,
-		cpus=int(config['num_cores']),
+		cpus=config['num_cores'],
 		slurm_partition="public"
 	shell:
 		'samtools merge \
@@ -266,9 +266,9 @@ rule MapReads:
 	output:
 		temp('pipeline/sorted_bams/{indiv}.{iter}.bam')
 	resources:
-		mem_mb = 2000 * int(config['num_cores']),
+		mem_mb = 2000 * config['num_cores'],
 		runtime=2880,
-		cpus=int(config['num_cores']),
+		cpus=config['num_cores'],
 		slurm_partition="public"
 	shell:
 		'bwa mem \
@@ -284,9 +284,9 @@ rule DownsampleBam:
 	output:
 		temp('pipeline/sorted_bams/child.downsampled.{iter}.bam')
 	resources:
-		mem_mb = 2000 * int(config['num_cores']),
+		mem_mb = 2000 * config['num_cores'],
 		runtime=240,
-		cpus=int(config['num_cores']),
+		cpus=config['num_cores'],
 		slurm_partition="public"
 	
 	shell:
@@ -302,7 +302,7 @@ rule SortBam:
 	resources:
 		mem_mb=64000, # lambda wc, input: max(input.size_mb*2,1024),
 		runtime=720,
-		cpus=int(config['num_cores']),
+		cpus=config['num_cores'],
 		slurm_partition="public"
 	shell:
 		'samtools sort -@ {resources.cpus} {input} > {output}'
@@ -318,6 +318,7 @@ rule MarkDuplicates:
 	resources:
 		runtime=2880,
 		mem_mb=64000, # lambda wc, input: input.size_mb*2,
+		cpus=config['num_cores'],
 		tmpdir='pipeline/mark_dups/',
 		slurm_partition="public"
 	shell:
@@ -338,6 +339,7 @@ rule BQSR:
 	resources:
 		tmpdir='pipeline/BQSR/',
 		runtime=480,
+		cpus=config['num_cores'],
 		slurm_partition="public"
 	shell:
 		'gatk BaseRecalibrator \
@@ -346,6 +348,7 @@ rule BQSR:
 		--known-sites {input.known_variants} \
 		--tmp-dir {resources.tmpdir} \
 		-O {output}'
+
 rule ApplyBQSR:
 	input:
 		bam = 'pipeline/mark_dups/{indiv}.sorted.mark_dups.{iter}.bam' if 'known_variants' in config.keys() else [],
@@ -357,6 +360,7 @@ rule ApplyBQSR:
 	resources:
 		tmpdir='pipeline/BQSR/',
 		runtime=720,
+		cpus=config['num_cores'],
 		slurm_partition="public"
 	shell:
 		'gatk ApplyBQSR \
@@ -380,6 +384,7 @@ rule CallVariants:
 		tmpdir='pipeline/call_variants/',
 		runtime=480,
 		mem_mb=40960,
+		cpus=config["num_cores"],
 		slurm_partition="public"
 	shell:
 		'gatk --java-options "-Xmx{resources.mem_mb}m" HaplotypeCaller \
@@ -406,6 +411,7 @@ rule CombineVariants:
 	resources:
 		runtime=480,
 		mem_mb=40960,
+		cpus=config["num_cores"],
 		slurm_partition="public"
 	shell:
 		'rm -r {output.output_dir} && gatk --java-options "-Xmx{resources.mem_mb}m" \
@@ -428,7 +434,8 @@ rule GenotypeVariants:
 		tmpdir='pipeline/genotype_variants/',
 		runtime=240,
 		mem_mb=40960,
-		slurm_partition="htc"
+		slurm_partition="htc",
+		cpus=config["num_cores"]
 	shell:
 		'gatk --java-options \"-Xmx{resources.mem_mb}m\" GenotypeGVCFs \
 		-R {input.reference} \
@@ -460,6 +467,7 @@ rule IsolateSNPs:
 				-select "AN==6" \
 				-O {output}
 		"""
+
 rule IsolateMVs:
 	input:
 		'pipeline/SNP/trio.{chromosome}.snp.{iter}.vcf'
@@ -576,6 +584,7 @@ rule get_mut_assembly_depths:
 				'pipeline/MV/trio.all_chr.MV.assembly_depths.mutations.{iter}.table'
 		resources:
 				runtime=240,
+				cpus=config["num_cups"],
 				slurm_partition="htc"
 		shell:r"""
 {{
