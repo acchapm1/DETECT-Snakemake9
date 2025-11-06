@@ -1,12 +1,11 @@
 #!/bin/bash
 
 module load mamba/latest
-# source activate sn9detect
 source activate DETECT
 
 BASE="$(pwd)"
 
-python $BASE/DETECT/create_config.py \
+python ../DETECT/create_config.py \
   -R demo/references/reference.fa \
   -U 2e-6 \
   -CL demo/chrom_list.txt \

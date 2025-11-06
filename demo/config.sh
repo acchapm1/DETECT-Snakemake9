@@ -5,7 +5,7 @@ source activate sn9detect
 
 BASE="$(pwd)"
 
-python $BASE/DETECT/create_config.py \
+python ../DETECT/create_config.py \
   -R $BASE/demo/references/reference.fa \
   -U 2e-6 \
   -CL $BASE/demo/chrom_list.txt \
