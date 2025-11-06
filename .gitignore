@@ -19,3 +19,4 @@ AGENTS.md
 scripts/config.json
 scripts/sbatch.sh
 scripts/myjobs
+slurm/*

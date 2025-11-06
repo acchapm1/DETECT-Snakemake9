@@ -1,15 +1,14 @@
 #!/bin/bash
 #SBATCH -n 1
 #SBATCH -c 2
-#SBATCH -t 4-00:00:00
+#SBATCH -t 04:00:00
 #SBATCH -p public
 #SBATCH -q public
-#SBATCH --job-name=detect_sn9
+#SBATCH --job-name=sn9-demo
 #SBATCH -o o-%j.out
 #SBATCH -e e-%j.err
 
 module load mamba/latest
-# source activate sn9detect
 source activate DETECT
 
 BASE="$(pwd)"
