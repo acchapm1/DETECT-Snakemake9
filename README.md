@@ -40,16 +40,39 @@ squeue -u acchapm1 -o "%i,%P,%.10j,%.40k"
 
 The comment field width can be adjusted (e.g., `%.40k` for 40 characters, `%.60k` for 60 characters) depending on your rule naming conventions.
 
-### Alternative: Create a Custom myjobs Script
+### Alternative: Use the snakejobs Script
 
-If your cluster's `myjobs` script doesn't show rule names, create a wrapper script:
+A custom `snakejobs` script is provided that enhances the cluster's `myjobs` command by adding a **RULE** column showing Snakemake rule names from the SLURM comment field.
+
+To install:
 
 ```bash
-#!/bin/bash
-# Save as ~/bin/snakejobs or similar
-squeue -u $USER -o "%.18i %.9P %.40k %.8u %.2t %.10M %.6D %R"
+# Run the installation script
+bash scripts/install_snakejobs.sh
 ```
 
-Make it executable: `chmod +x ~/bin/snakejobs`
+This script will:
+1. Copy `scripts/snakejobs` to `$HOME/.local/bin`
+2. Verify `$HOME/.local/bin` is in your PATH
+3. Add it to your PATH in `~/.bashrc` if needed
+4. Update your current environment
+
+After installation, you have two commands available:
+```bash
+myjobs      # System command - standard job view (no rule names)
+snakejobs   # New command - enhanced view with RULE column showing Snakemake rule names
+```
+
+The `snakejobs` script provides the same formatted output as `myjobs` with these columns:
+- JobID (with array task IDs merged)
+- PRIORITY
+- PARTITION/QOS (merged)
+- NAME
+- STATE
+- TIME USED
+- TIME LIMIT
+- Node/Core/GPU (merged)
+- **RULE** (Snakemake rule name from comment field)
+- REASON
 
 See DETECT/README.md for more information. 
