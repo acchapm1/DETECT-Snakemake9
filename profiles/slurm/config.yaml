@@ -11,7 +11,7 @@ default-resources:
   - cpus=1
 slurm-logdir: logs
 
-# Job naming configuration (easily reversible)
-# To disable: comment out the jobname line below
-# To enable: uncomment the jobname line below
-jobname: "Snakemake {rulename}.{jobid}"
+# Job names are automatically set by Snakemake for internal tracking
+# To view rule names in squeue, use the comment field:
+# squeue -u acchapm1 -o "%.18i %.9P %.40k %.8u %.2t %.10M"
+# where %.40k displays the comment field containing the rule name
